@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🇿🇦 África do Sul - Roteiro 2027</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 50%, #db2777 100%);
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --muted: #64748b;
+      --accent: #8b5cf6;
+      --accent-light: #ede9fe;
+      --success: #10b981;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --blue: #3b82f6;
+      --shadow: 0 4px 16px rgba(0,0,0,0.1);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.15);
+    }
+
+    body {
+      font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    /* HEADER */
+    header {
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow);
+    }
+
+    .header-left { display: flex; align-items: center; gap: 16px; }
+
+    .flag { font-size: 36px; }
+
+    header h1 { font-size: 21px; font-weight: 900; letter-spacing: -0.5px; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    header .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    .header-right { display: flex; gap: 10px; align-items: center; }
+
+    .btn-whatsapp {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: #25d366;
+      color: #fff;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 4px 14px rgba(37,211,102,0.4);
+      transition: all 0.2s;
+    }
+
+    .btn-whatsapp:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,211,102,0.5); }
+
+    .travelers {
+      display: flex;
+      gap: -8px;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700;
+      font-size: 15px;
+      color: #fff;
+      border: 3px solid #fff;
+      cursor: default;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      position: relative;
+      margin-left: -8px;
+      transition: transform 0.2s;
+    }
+
+    .avatar:first-child { margin-left: 0; }
+    .avatar:hover { transform: scale(1.1); z-index: 10; }
+
+    .avatar.augusto { background: linear-gradient(135deg, #667eea, #764ba2); }
+    .avatar.vanessa { background: linear-gradient(135deg, #f093fb, #f5576c); }
+    .avatar.jonny   { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+
+    /* CONTAINER */
+    .container {
+      max-width: 1200px;
+      margin: 36px auto;
+      padding: 0 24px;
+    }
+
+    /* STATS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 24px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: default;
+    }
+
+    .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+    .stat-icon { font-size: 32px; margin-bottom: 8px; display: block; }
+
+    .stat-val {
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+    }
+
+    .stat-val.money { background: linear-gradient(135deg, #10b981, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .stat-val.days { background: linear-gradient(135deg, #8b5cf6, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .stat-val.places { background: linear-gradient(135deg, #3b82f6, #2563eb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    .stat-lbl {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--muted);
+    }
+
+    .stat-sublbl {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* TABS */
+    .tabs-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      gap: 8px;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      padding: 11px 22px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tab-btn:hover { background: var(--accent-light); color: var(--accent); }
+    .tab-btn.active { background: var(--accent); color: #fff; box-shadow: 0 4px 14px rgba(139,92,246,0.4); }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; animation: fadeIn 0.3s; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    /* DAY CARD */
+    .day-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .day-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+    .day-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .day-title { flex: 1; min-width: 220px; }
+
+    .day-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 900;
+      margin-right: 12px;
+      box-shadow: 0 4px 12px rgba(139,92,246,0.4);
+    }
+
+    .day-title h3 { font-size: 18px; font-weight: 800; display: inline; }
+    .day-title .date { font-size: 13px; color: var(--muted); display: block; margin-top: 4px; font-weight: 600; }
+
+    .day-budget-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-end;
+    }
+
+    .day-budget {
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border: 2px solid #bbf7d0;
+      border-radius: 10px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 900;
+      color: #15803d;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .day-budget-real {
+      background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+      border: 2px solid #93c5fd;
+      color: #1e40af;
+    }
+
+    .budget-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .day-desc { color: var(--muted); font-size: 14px; margin-bottom: 16px; line-height: 1.7; }
+
+    /* ACTIVITY */
+    .activity-list { margin-bottom: 16px; }
+
+    .activity {
+      background: linear-gradient(135deg, #fafbff, #f8fafc);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      transition: all 0.2s;
+    }
+
+    .activity:hover { background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+
+    .activity-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .activity-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      background: #fff;
+      border: 1px solid var(--border);
+    }
+
+    .activity-body { flex: 1; }
+    .activity-title { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+    .activity-detail { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    .activity-links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .link-input-wrap {
+      flex: 1;
+      min-width: 200px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .link-input {
+      flex: 1;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 12px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .link-input:focus { border-color: var(--accent); }
+    .link-input::placeholder { color: #cbd5e1; }
+
+    .link-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .link-btn:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
+
+    .cost-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .cost-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      min-width: 80px;
+    }
+
+    .cost-input {
+      width: 120px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 13px;
+      font-weight: 700;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .cost-input:focus { border-color: var(--accent); }
+
+    .tip-box {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border: 2px solid #fbbf24;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 13px;
+      color: #92400e;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      line-height: 1.6;
+    }
+
+    .tip-box::before { content: '💡'; font-size: 20px; flex-shrink: 0; }
+
+    /* BUDGET TAB */
+    .budget-selector {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .budget-selector h3 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+    .budget-selector .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+
+    .budget-profiles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .profile-card {
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .profile-card:hover { border-color: var(--accent); }
+
+    .profile-card.active {
+      border-color: var(--accent);
+      background: var(--accent-light);
+      box-shadow: 0 4px 16px rgba(139,92,246,0.3);
+    }
+
+    .profile-card .check {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #fff;
+      transition: all 0.2s;
+    }
+
+    .profile-card.active .check { background: var(--accent); }
+    .profile-card.active .check::after { content: '✓'; }
+
+    .profile-icon { font-size: 32px; margin-bottom: 10px; }
+    .profile-name { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+    .profile-desc { font-size: 12px; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
+    .profile-price { font-size: 24px; font-weight: 900; color: var(--accent); }
+
+    /* BUDGET SECTION */
+    .budget-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .budget-section h3 {
+      font-size: 17px;
+      font-weight: 800;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .budget-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      gap: 16px;
+    }
+
+    .budget-row:last-child { border-bottom: none; }
+
+    .budget-row .label { font-weight: 600; flex: 1; }
+
+    .budget-row input {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 14px;
+      font-weight: 700;
+      text-align: right;
+      width: 140px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .budget-row input:focus { border-color: var(--accent); }
+
+    .budget-total {
+      background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+      border: 3px solid var(--accent);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .budget-total .label { font-size: 16px; font-weight: 800; color: var(--accent); }
+    .budget-total .value { font-size: 28px; font-weight: 900; color: var(--accent); }
+
+    .split-info {
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border: 2px solid #bbf7d0;
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-top: 18px;
+      font-size: 14px;
+      color: #15803d;
+    }
+
+    .split-info strong { display: block; margin-bottom: 10px; font-size: 15px; }
+
+    .split-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-weight: 600;
+    }
+
+    /* CHECKLIST */
+    .checklist-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .checklist-item:hover { background: #fafbff; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+
+    .checklist-item input[type="checkbox"] {
+      width: 22px; height: 22px;
+      cursor: pointer;
+      flex-shrink: 0;
+      accent-color: var(--accent);
+    }
+
+    .checklist-item label {
+      flex: 1;
+      font-size: 14px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .checklist-item.done { opacity: 0.5; }
+    .checklist-item.done label { text-decoration: line-through; }
+
+    /* TIPS TAB */
+    .region-tips {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .region-tips h3 {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .region-tips .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 16px; font-weight: 600; }
+    .region-tips ul { padding-left: 22px; }
+    .region-tips li { margin-bottom: 8px; font-size: 14px; line-height: 1.6; }
+
+    /* TOAST */
+    #toast {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      background: #1e293b;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: 100px;
+      z-index: 999;
+      transform: translateX(400px);
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #toast.show { transform: translateX(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      header { padding: 0 16px; height: 64px; }
+      .header-left h1 { font-size: 17px; }
+      .container { padding: 0 14px; margin-top: 24px; }
+      .day-card { padding: 20px; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .budget-profiles { grid-template-columns: 1fr; }
+      .travelers .avatar { width: 36px; height: 36px; font-size: 13px; }
+      #toast { right: 16px; bottom: 20px; }
+      .btn-whatsapp { padding: 8px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-left">
+    <span class="flag">🇿🇦</span>
+    <div>
+      <h1>Roteiro África do Sul 2027</h1>
+      <div class="sub">05 a 19 de Maio · Cidade do Cabo, Garden Route & Safári</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <button class="btn-whatsapp" onclick="shareWhatsApp()">
+      <span style="font-size: 18px;">💬</span>
+      Compartilhar no WhatsApp
+    </button>
+    <div class="travelers">
+      <div class="avatar augusto" title="Augusto">A</div>
+      <div class="avatar vanessa" title="Vanessa">V</div>
+      <div class="avatar jonny" title="Jonny">J</div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat-card">
+      <span class="stat-icon">📅</span>
+      <div class="stat-val days">15</div>
+      <div class="stat-lbl">Dias de Viagem</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">📍</span>
+      <div class="stat-val places">9</div>
+      <div class="stat-lbl">Regiões Visitadas</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">💰</span>
+      <div class="stat-val money" id="totalBudgetPlanned">R$ 0</div>
+      <div class="stat-lbl">Orçamento Planejado</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">💳</span>
+      <div class="stat-val money" id="totalBudgetReal" style="background: linear-gradient(135deg, #3b82f6, #2563eb); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">R$ 0</div>
+      <div class="stat-lbl">Gasto Real</div>
+      <div class="stat-sublbl" id="budgetDiff"></div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon">👤</span>
+      <div class="stat-val money" id="perPerson">R$ 0</div>
+      <div class="stat-lbl">Por Pessoa (Real)</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs-wrap">
+    <button class="tab-btn active" onclick="showTab('itinerary')">📅 Roteiro</button>
+    <button class="tab-btn" onclick="showTab('budget')">💰 Orçamento</button>
+    <button class="tab-btn" onclick="showTab('checklist')">✅ Checklist</button>
+    <button class="tab-btn" onclick="showTab('tips')">💡 Dicas</button>
+  </div>
+
+  <!-- TAB: ITINERARY -->
+  <div id="tab-itinerary" class="tab-panel active">
+    <div id="daysList"></div>
+  </div>
+
+  <!-- TAB: BUDGET -->
+  <div id="tab-budget" class="tab-panel">
+
+    <!-- PROFILE SELECTOR -->
+    <div class="budget-selector">
+      <h3>🎯 Escolha seu Perfil de Viagem</h3>
+      <div class="subtitle">Selecione o estilo de viagem e edite os valores conforme sua realidade</div>
+
+      <div class="budget-profiles">
+        <div class="profile-card" id="profile-economico" onclick="selectProfile('economico')">
+          <div class="check"></div>
+          <div class="profile-icon">💵</div>
+          <div class="profile-name">Econômica</div>
+          <div class="profile-desc">Hostels, transporte público, refeições simples</div>
+          <div class="profile-price">R$ 32.400</div>
+        </div>
+
+        <div class="profile-card active" id="profile-media" onclick="selectProfile('media')">
+          <div class="check"></div>
+          <div class="profile-icon">🏨</div>
+          <div class="profile-name">Média</div>
+          <div class="profile-desc">Hotéis 3-4⭐, aluguel de carro, bons restaurantes</div>
+          <div class="profile-price">R$ 46.800</div>
+        </div>
+
+        <div class="profile-card" id="profile-luxo" onclick="selectProfile('luxo')">
+          <div class="check"></div>
+          <div class="profile-icon">💎</div>
+          <div class="profile-name">Luxo</div>
+          <div class="profile-desc">Hotéis 5⭐, transfers privativos, fine dining</div>
+          <div class="profile-price">R$ 68.400</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUDGET BREAKDOWN -->
+    <div class="budget-section">
+      <h3>💸 Detalhamento de Custos</h3>
+      <div id="budgetRows"></div>
+
+      <div class="budget-total">
+        <span class="label">💰 Total Planejado</span>
+        <span class="value" id="budgetTotalPlanned">R$ 46.800</span>
+      </div>
+
+      <div class="budget-total" style="background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-color: #3b82f6;">
+        <span class="label" style="color: #1e40af;">💳 Total Real</span>
+        <span class="value" style="color: #1e40af;" id="budgetTotalReal">R$ 0</span>
+      </div>
+
+      <div class="split-info">
+        <strong>📊 Divisão entre 3 viajantes (Gasto Real):</strong>
+        <div class="split-row">
+          <span>👤 Augusto</span>
+          <span id="splitAugusto">R$ 0</span>
+        </div>
+        <div class="split-row">
+          <span>👤 Vanessa</span>
+          <span id="splitVanessa">R$ 0</span>
+        </div>
+        <div class="split-row">
+          <span>👤 Jonny</span>
+          <span id="splitJonny">R$ 0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIPS -->
+    <div class="budget-section">
+      <h3>📌 Dicas de Economia</h3>
+      <ul style="padding-left: 22px; color: var(--muted); font-size: 14px; line-height: 1.8;">
+        <li>Reserve restaurantes pelo The Fork (descontos de 20-50%)</li>
+        <li>Compre o Cape Town City Pass para economizar em atrações</li>
+        <li>Abasteça o carro em cidades grandes (mais barato)</li>
+        <li>Evite trocar dinheiro no aeroporto (taxa alta)</li>
+        <li>Combine degustações em vinícolas para almoçar lá mesmo</li>
+        <li>Use Uber em vez de táxis — é mais seguro e barato</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TAB: CHECKLIST -->
+  <div id="tab-checklist" class="tab-panel">
+    <div class="budget-section">
+      <h3>✅ Pré-Viagem (até 30 dias antes)</h3>
+      <div id="checklistPre"></div>
+    </div>
+
+    <div class="budget-section">
+      <h3>🎒 1 Semana Antes</h3>
+      <div id="checklist1Week"></div>
+    </div>
+
+    <div class="budget-section">
+      <h3>🛫 Véspera do Embarque</h3>
+      <div id="checklistLastDay"></div>
+    </div>
+  </div>
+
+  <!-- TAB: TIPS -->
+  <div id="tab-tips" class="tab-panel">
+    <div id="tipsRegions"></div>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+  // ─── DATA ───────────────────────────────────────────────────────────────────
+
+  const DAYS = [
+    {
+      day: 1,
+      date: "Seg, 05/Mai/2027",
+      title: "Partida do Brasil",
+      region: "São Paulo → Cidade do Cabo",
+      activities: [
+        { icon: "✈️", title: "Voo SAA — GRU → CPT", detail: "Saída 17h05 · South African Airways · Voo direto", hasLink: false, hasCost: false }
+      ],
+      tip: "Chegue ao aeroporto 3h antes. Leve dólares em espécie para emergências e confirme o cartão de débito internacional.",
+      budgetPlanned: 0,
+      budgetReal: 0
+    },
+    {
+      day: 2,
+      date: "Ter, 06/Mai/2027",
+      title: "Chegada em Cidade do Cabo",
+      region: "Cidade do Cabo",
+      activities: [
+        { icon: "🛬", title: "Chegada às 11h10", detail: "Imigração + retirada de bagagem (~1h)", hasLink: false, hasCost: false },
+        { icon: "🏨", title: "Hotel em Cape Town", detail: "V&A Waterfront ou City Bowl", hasLink: true, hasCost: true },
+        { icon: "🛍️", title: "Passeio leve no V&A Waterfront", detail: "Almoço tardio + compras + vista da Table Mountain", hasLink: false, hasCost: false }
+      ],
+      tip: "Troque Rands no Bidvest Bank do aeroporto (melhor taxa). Compre chip de internet (Vodacom ou MTN) logo na chegada.",
+      budgetPlanned: 1200,
+      budgetReal: 0
+    },
+    {
+      day: 3,
+      date: "Qua, 07/Mai/2027",
+      title: "Table Mountain, Bo-Kaap & Constantia",
+      region: "Cidade do Cabo",
+      activities: [
+        { icon: "🚡", title: "Table Mountain Cableway", detail: "Suba cedo (8h) para evitar fila e neblina. Vista 360°", hasLink: true, hasCost: true },
+        { icon: "🏘️", title: "Bairro Bo-Kaap", detail: "Casas coloridas icônicas. Fotos obrigatórias!", hasLink: true, hasCost: false },
+        { icon: "🍷", title: "Almoço e degustação em Constantia", detail: "Groot Constantia (vinícola mais antiga)", hasLink: true, hasCost: true }
+      ],
+      tip: "Reserve o teleférico online com antecedência. Se estiver nublado, adie para outro dia — a vista vale cada centavo!",
+      budgetPlanned: 850,
+      budgetReal: 0
+    },
+    {
+      day: 4,
+      date: "Qui, 08/Mai/2027",
+      title: "Península do Cabo — Dia Completo",
+      region: "Península do Cabo",
+      activities: [
+        { icon: "🚗", title: "Chapman's Peak Drive", detail: "Uma das estradas costeiras mais bonitas do mundo", hasLink: true, hasCost: false },
+        { icon: "🐧", title: "Pinguins em Boulders Beach", detail: "Colônia de pinguins africanos. Entrada R$ 80/pessoa", hasLink: true, hasCost: true },
+        { icon: "🌊", title: "Cabo da Boa Esperança", detail: "Ponto de encontro dos oceanos Atlântico e Índico", hasLink: true, hasCost: true }
+      ],
+      tip: "Contrate um motorista privado para o dia todo (R$ 600-800 dividido entre 3). Leve lanche, água e protetor solar.",
+      budgetPlanned: 1400,
+      budgetReal: 0
+    },
+    {
+      day: 5,
+      date: "Sex, 09/Mai/2027",
+      title: "Kirstenbosch, Praias & Pôr do Sol",
+      region: "Cidade do Cabo",
+      activities: [
+        { icon: "🌳", title: "Kirstenbosch Botanical Gardens", detail: "Passarela Boomslang + trilhas. Entrada R$ 100/pessoa", hasLink: true, hasCost: true },
+        { icon: "🏖️", title: "Praias de Camps Bay / Clifton", detail: "Almoço à beira-mar. Água gelada, mas cenário incrível", hasLink: true, hasCost: false },
+        { icon: "🌅", title: "Pôr do sol em Signal Hill", detail: "Vista panorâmica da cidade e do mar. Gratuito", hasLink: true, hasCost: false }
+      ],
+      tip: "Se tiver tempo, visite o museu Zeitz MOCAA (arte contemporânea africana). Entrada R$ 120/pessoa.",
+      budgetPlanned: 650,
+      budgetReal: 0
+    },
+    {
+      day: 6,
+      date: "Sáb, 10/Mai/2027",
+      title: "Rumo às Vinícolas — Paarl & Stellenbosch",
+      region: "Winelands",
+      activities: [
+        { icon: "🏨", title: "Hotel em Stellenbosch", detail: "Check-in nas vinícolas", hasLink: true, hasCost: true },
+        { icon: "🧀", title: "Fairview Wine and Cheese", detail: "Degustação de vinhos e queijos artesanais", hasLink: true, hasCost: true },
+        { icon: "🍷", title: "Almoço na Delaire Graff Estate", detail: "Restaurante + jardins Babylonstoren", hasLink: true, hasCost: true }
+      ],
+      tip: "Babylonstoren tem uma horta orgânica espetacular e restaurante farm-to-table. Reserve mesa com antecedência.",
+      budgetPlanned: 1100,
+      budgetReal: 0
+    },
+    {
+      day: 7,
+      date: "Dom, 11/Mai/2027",
+      title: "Franschhoek Wine Tram",
+      region: "Winelands",
+      activities: [
+        { icon: "🚋", title: "Franschhoek Wine Tram", detail: "Passeio hop-on-hop-off entre vinícolas. R$ 350/pessoa", hasLink: true, hasCost: true },
+        { icon: "🍇", title: "Degustações em 3-4 vinícolas", detail: "Boschendal, Grande Provence, La Motte", hasLink: false, hasCost: false },
+        { icon: "📦", title: "Compra de vinhos", detail: "12 garrafas + caixa reforçada para voo", hasLink: false, hasCost: true }
+      ],
+      tip: "O Wine Tram é perfeito para beber sem dirigir. Leve sacola térmica para vinhos. Peça embalagem reforçada na última vinícola.",
+      budgetPlanned: 1300,
+      budgetReal: 0
+    },
+    {
+      day: 8,
+      date: "Seg, 12/Mai/2027",
+      title: "Garden Route — Hermanus, Tradouw Pass & Knysna",
+      region: "Garden Route",
+      activities: [
+        { icon: "🚗", title: "Retirada do carro alugado", detail: "Pegue nas vinícolas ou aeroporto de Cape Town", hasLink: false, hasCost: true },
+        { icon: "🐋", title: "Hermanus Cliff Path", detail: "Caminhada nas falésias. Temporada de baleias (Jun-Nov)", hasLink: true, hasCost: false },
+        { icon: "🐘", title: "Knysna Elephant Park", detail: "Alimentação e interação com elefantes. R$ 300/pessoa", hasLink: true, hasCost: true },
+        { icon: "🏨", title: "Hotel em Plettenberg Bay", detail: "Cidade praiana charmosa", hasLink: true, hasCost: true }
+      ],
+      tip: "Abasteça em cidades grandes (mais barato). Faça um piquenique no Tradouw Pass — cenário cinematográfico!",
+      budgetPlanned: 1600,
+      budgetReal: 0
+    },
+    {
+      day: 9,
+      date: "Ter, 13/Mai/2027",
+      title: "Safári de Proximidade & Trilhas",
+      region: "Plettenberg Bay",
+      activities: [
+        { icon: "🦏", title: "Plettenberg Bay Game Reserve", detail: "Safári 4x4 com rinocerontes, girafas, zebras. R$ 450/pessoa", hasLink: true, hasCost: true },
+        { icon: "🥾", title: "Robberg Nature Reserve", detail: "Trilha nas falésias. Avistamento de focas. R$ 60/pessoa", hasLink: true, hasCost: true }
+      ],
+      tip: "O safári de Plettenberg Bay é mais intimista que Addo. Perfeito para fotos de perto com os animais!",
+      budgetPlanned: 1400,
+      budgetReal: 0
+    },
+    {
+      day: 10,
+      date: "Qua, 14/Mai/2027",
+      title: "Tsitsikamma & Bloukrans Bridge",
+      region: "Tsitsikamma",
+      activities: [
+        { icon: "🌉", title: "Bloukrans Bridge", detail: "Bungee jump mais alto do mundo (216m). Ou apenas tire fotos!", hasLink: true, hasCost: false },
+        { icon: "🌲", title: "Tsitsikamma National Park", detail: "Pontes suspensas sobre o Storms River", hasLink: true, hasCost: true }
+      ],
+      tip: "A trilha até a primeira ponte suspensa leva 20min. Vale muito a pena — floresta de conto de fadas!",
+      budgetPlanned: 500,
+      budgetReal: 0
+    },
+    {
+      day: 11,
+      date: "Qui, 15/Mai/2027",
+      title: "Addo Elephant Park → Voo para Joanesburgo",
+      region: "Addo / Port Elizabeth → JNB",
+      activities: [
+        { icon: "🐘", title: "Auto-safári em Addo", detail: "Entre cedo (6h) para ver elefantes e leões. R$ 150/pessoa", hasLink: true, hasCost: true },
+        { icon: "✈️", title: "Voo SAA — PLZ → JNB às 13h30", detail: "Pouso às 15h05. Pernoite próximo ao aeroporto", hasLink: false, hasCost: false }
+      ],
+      tip: "Em Addo, mantenha as janelas fechadas perto dos elefantes. Eles são gigantes e curiosos!",
+      budgetPlanned: 1000,
+      budgetReal: 0
+    },
+    {
+      day: 12,
+      date: "Sex, 16/Mai/2027",
+      title: "Rumo ao Safári Big 5 — Milima Lodge",
+      region: "Limpopo / Milima Lodge",
+      activities: [
+        { icon: "🚗", title: "Retirada do 2º carro alugado em JNB", detail: "Retirada no aeroporto", hasLink: false, hasCost: true },
+        { icon: "🏨", title: "Milima Big 5 Safari Lodge", detail: "Check-in (~5h30 de viagem). 1º game drive incluso", hasLink: true, hasCost: true },
+        { icon: "🦁", title: "Safári ao entardecer", detail: "Big 5 em ação! Incluso no lodge", hasLink: false, hasCost: false }
+      ],
+      tip: "Leve binóculos e câmera com boa zoom. Use roupas neutras (verde/bege). Respeite as orientações do guia.",
+      budgetPlanned: 2800,
+      budgetReal: 0
+    },
+    {
+      day: 13,
+      date: "Sáb, 17/Mai/2027",
+      title: "Dia Completo de Safári — Big 5",
+      region: "Milima Lodge",
+      activities: [
+        { icon: "🌅", title: "Safári matinal (5h30-9h)", detail: "Leões, leopardos, elefantes, rinocerontes e búfalos. Incluso", hasLink: false, hasCost: false },
+        { icon: "🌄", title: "Safári ao entardecer (16h-19h)", detail: "Horário nobre para avistar grandes felinos caçando. Incluso", hasLink: false, hasCost: false }
+      ],
+      tip: "Leve uma jaqueta — madrugadas no safári são frias. Fique em silêncio absoluto perto dos animais.",
+      budgetPlanned: 0,
+      budgetReal: 0
+    },
+    {
+      day: 14,
+      date: "Dom, 18/Mai/2027",
+      title: "Último Safári & Retorno para JNB",
+      region: "Milima Lodge → Joanesburgo",
+      activities: [
+        { icon: "🦓", title: "Último safári matinal", detail: "Despedida dos Big 5. Incluso", hasLink: false, hasCost: false },
+        { icon: "🏨", title: "Hotel próximo ao aeroporto JNB", detail: "Pernoite para voo cedo", hasLink: true, hasCost: true }
+      ],
+      tip: "Peça ao guia para tentar avistar o animal que você ainda não viu. Eles são experts em rastrear!",
+      budgetPlanned: 500,
+      budgetReal: 0
+    },
+    {
+      day: 15,
+      date: "Seg, 19/Mai/2027",
+      title: "Retorno ao Brasil",
+      region: "Joanesburgo → São Paulo",
+      activities: [
+        { icon: "🚗", title: "Devolução do carro no aeroporto JNB", detail: "Chegue 3h antes do voo (às 6h50)", hasLink: false, hasCost: false },
+        { icon: "✈️", title: "Voo SAA — JNB → GRU às 09h50", detail: "Chegada em Guarulhos às 15h25. Fim da aventura!", hasLink: false, hasCost: false }
+      ],
+      tip: "Declare os vinhos na alfândega brasileira. Limite: 12L/pessoa sem taxa. Acima disso, paga 50% do valor excedente.",
+      budgetPlanned: 0,
+      budgetReal: 0
+    }
+  ];
+
+  const BUDGET_CATEGORIES = [
+    { key: 'passagens', label: 'Passagens Aéreas (Internacionais)', economico: 15000, media: 18000, luxo: 24000 },
+    { key: 'domestico', label: 'Voo Doméstico (PLZ → JNB)', economico: 900, media: 1200, luxo: 1800 },
+    { key: 'hospedagens', label: 'Hospedagens (14 noites)', economico: 8400, media: 12600, luxo: 21000 },
+    { key: 'carros', label: 'Aluguel de Carros (2 períodos)', economico: 1800, media: 2400, luxo: 3600 },
+    { key: 'passeios', label: 'Passeios & Ingressos', economico: 3600, media: 5400, luxo: 8400 },
+    { key: 'alimentacao', label: 'Alimentação (estimativa)', economico: 2100, media: 4500, luxo: 7200 },
+    { key: 'transporte', label: 'Transporte Local (Uber/Transfers)', economico: 900, media: 1800, luxo: 3000 },
+    { key: 'extras', label: 'Seguro Viagem & Extras', economico: 700, media: 900, luxo: 1400 },
+  ];
+
+  const CHECKLIST_PRE = [
+    "Passaportes válidos (mínimo 6 meses)",
+    "Certificado Internacional de Vacinação (Febre Amarela)",
+    "Permissão Internacional para Dirigir (PID/CNH)",
+    "Seguro viagem com cobertura mínima de USD 30.000",
+    "Reservas de hospedagens (todas confirmadas)",
+    "Passagens aéreas (internacional + doméstica PLZ→JNB)",
+    "Reserva dos carros alugados (com seguro completo)",
+    "Compra de ingressos online (Table Mountain, Wine Tram, etc.)",
+    "Chip internacional ou eSIM (Vodacom/MTN)",
+    "Cartão de crédito internacional sem IOF (Wise, Nomad, etc.)",
+    "Dólares em espécie (USD 500 para emergências)",
+    "Roteiro impresso e offline no Google Maps"
+  ];
+
+  const CHECKLIST_1WEEK = [
+    "Check-in online dos voos",
+    "Baixar mapas offline (Garden Route, Joanesburgo)",
+    "Confirmar todas as reservas de hospedagem",
+    "Ligar na locadora de veículos para confirmar retirada",
+    "Preparar kit de primeiros socorros",
+    "Separar roupas leves + 1 casaco para safári",
+    "Embalar binóculos, câmera e carregadores",
+    "Imprimir vouchers de passeios",
+    "Avisar banco/cartão sobre viagem internacional",
+    "Fazer cópia de documentos (passaporte, seguro, PID)"
+  ];
+
+  const CHECKLIST_LASTDAY = [
+    "Malas prontas (limite: 23kg bagagem despachada + 8kg mão)",
+    "Documentos em pasta de fácil acesso (passaporte, vouchers, PID)",
+    "Remédios de uso contínuo na bagagem de mão",
+    "Carregadores e adaptador de tomada (África do Sul usa tipo M/N)",
+    "Snacks para o voo (17h de viagem)",
+    "Câmera carregada e cartão de memória vazio",
+    "Confirmar transporte para o aeroporto de GRU (Uber às 14h)",
+    "Desligar gás, água e eletrodomésticos em casa"
+  ];
+
+  const TIPS_REGIONS = [
+    {
+      icon: "🏙️",
+      name: "Cidade do Cabo",
+      subtitle: "Capital Legislativa · Vinhos, Montanhas & Praias",
+      tips: [
+        "Use Uber para tudo — é barato e seguro",
+        "Evite andar sozinho à noite em áreas desertas",
+        "O vento é intenso no verão — leve jaqueta leve",
+        "Restaurantes não incluem gorjeta — deixe 10-15%",
+        "Compre o Cape Town City Pass se for visitar 3+ atrações"
+      ]
+    },
+    {
+      icon: "🍷",
+      name: "Winelands (Stellenbosch, Franschhoek, Paarl)",
+      subtitle: "Vale dos Vinhos · Degustações e Gastronomia",
+      tips: [
+        "Não dirija após degustações — use Uber ou Wine Tram",
+        "Vinícolas fecham cedo (16h-17h) — chegue antes das 15h",
+        "Reserve restaurantes com antecedência (alta demanda)",
+        "Peça vinhos MCC (espumante sul-africano) — são excelentes",
+        "Leve sacola térmica para comprar vinhos"
+      ]
+    },
+    {
+      icon: "🏞️",
+      name: "Garden Route",
+      subtitle: "Rota Jardim · Florestas, Praias e Montanhas",
+      tips: [
+        "Abasteça em cidades grandes — postos isolados são caros",
+        "Leve água e snacks para trajetos longos",
+        "Cuidado com babuínos — não ofereça comida",
+        "Estradas sinuosas — dirija com calma",
+        "Clima pode mudar rápido — tenha sempre um casaco"
+      ]
+    },
+    {
+      icon: "🦁",
+      name: "Safári Big 5 (Limpopo)",
+      subtitle: "Milima Lodge · Leões, Leopardos, Elefantes, Rinocerontes, Búfalos",
+      tips: [
+        "Vista roupas neutras (verde, bege, marrom) — não use vermelho ou laranja",
+        "Leve binóculos e câmera com boa zoom (mínimo 200mm)",
+        "Madrugadas são frias — casaco é obrigatório",
+        "Fique em silêncio absoluto perto dos animais",
+        "Não saia do veículo a menos que autorizado pelo guia",
+        "Leve repelente e protetor solar — safari é a céu aberto"
+      ]
+    }
+  ];
+
+  // ─── STATE ───────────────────────────────────────────────────────────────────
+
+  let currentProfile = 'media';
+  let customBudget = JSON.parse(localStorage.getItem('sa_budget_custom') || 'null');
+  let realBudget = JSON.parse(localStorage.getItem('sa_budget_real') || 'null');
+  let dayLinks = JSON.parse(localStorage.getItem('sa_day_links') || '{}');
+  let dayCosts = JSON.parse(localStorage.getItem('sa_day_costs') || '{}');
+  let checkedItems = JSON.parse(localStorage.getItem('sa_checklist') || '{}');
+
+  if (!customBudget) {
+    customBudget = {};
+    BUDGET_CATEGORIES.forEach(cat => {
+      customBudget[cat.key] = cat.media;
+    });
+  }
+
+  if (!realBudget) {
+    realBudget = {};
+    BUDGET_CATEGORIES.forEach(cat => {
+      realBudget[cat.key] = 0;
+    });
+  }
+
+  // ─── HELPERS ─────────────────────────────────────────────────────────────────
+
+  function showTab(name) {
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('onclick') === `showTab('${name}')`);
+    });
+    document.querySelectorAll('.tab-panel').forEach(p => {
+      p.classList.toggle('active', p.id === `tab-${name}`);
+    });
+  }
+
+  function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  function formatMoney(val) {
+    return val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  }
+
+  function selectProfile(profile) {
+    currentProfile = profile;
+    document.querySelectorAll('.profile-card').forEach(c => c.classList.remove('active'));
+    document.getElementById(`profile-${profile}`).classList.add('active');
+
+    BUDGET_CATEGORIES.forEach(cat => {
+      customBudget[cat.key] = cat[profile];
+    });
+
+    localStorage.setItem('sa_budget_custom', JSON.stringify(customBudget));
+    renderBudget();
+    updateStats();
+    toast(`✅ Perfil "${profile}" selecionado`);
+  }
+
+  function saveLink(day, activityIndex, url) {
+    const key = `${day}_${activityIndex}`;
+    dayLinks[key] = url;
+    localStorage.setItem('sa_day_links', JSON.stringify(dayLinks));
+    toast('🔗 Link salvo!');
+  }
+
+  function saveCost(day, activityIndex, cost) {
+    const key = `${day}_${activityIndex}`;
+    dayCosts[key] = parseInt(cost) || 0;
+    localStorage.setItem('sa_day_costs', JSON.stringify(dayCosts));
+    updateDayCosts();
+    updateStats();
+    toast('💰 Custo salvo!');
+  }
+
+  function saveDayBudget(day, type, value) {
+    const dayData = DAYS.find(d => d.day === day);
+    if (!dayData) return;
+
+    if (type === 'real') {
+      dayData.budgetReal = parseInt(value) || 0;
+    }
+
+    localStorage.setItem('sa_days_data', JSON.stringify(DAYS));
+    updateStats();
+    toast('💳 Custo atualizado!');
+  }
+
+  function updateDayCosts() {
+    renderItinerary();
+  }
+
+  function shareWhatsApp() {
+    const totalPlanned = Object.values(customBudget).reduce((sum, v) => sum + v, 0);
+    const totalReal = Object.values(realBudget).reduce((sum, v) => sum + v, 0);
+    const perPerson = totalReal > 0 ? totalReal / 3 : totalPlanned / 3;
+
+    const msg = `🇿🇦 *ROTEIRO ÁFRICA DO SUL 2027*
+
+📅 05 a 19 de Maio (15 dias)
+📍 Cidade do Cabo, Garden Route & Safári Big 5
+
+💰 *Orçamento*
+• Planejado: ${formatMoney(totalPlanned)}
+• Real: ${formatMoney(totalReal)}
+• Por pessoa: ${formatMoney(perPerson)}
+
+🌍 *Destaques*
+✓ Table Mountain & Cabo da Boa Esperança
+✓ Vinícolas de Stellenbosch e Franschhoek
+✓ Garden Route (Knysna, Plett, Tsitsikamma)
+✓ Safári Big 5 no Milima Lodge
+
+🧳 Viajantes: Augusto, Vanessa e Jonny
+
+Vamos juntos nessa aventura! 🦁🍷🌊`;
+
+    const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+  }
+
+  // ─── RENDER ──────────────────────────────────────────────────────────────────
+
+  function renderItinerary() {
+    const container = document.getElementById('daysList');
+    container.innerHTML = DAYS.map(d => `
+      <div class="day-card">
+        <div class="day-header">
+          <div class="day-title">
+            <span class="day-num">${d.day}</span>
+            <h3>${d.title}</h3>
+            <div class="date">${d.date} · ${d.region}</div>
+          </div>
+          <div class="day-budget-wrap">
+            ${d.budgetPlanned > 0 ? `
+              <div class="day-budget">
+                <span class="budget-label">Planejado</span>
+                ${formatMoney(d.budgetPlanned)}
+              </div>
+            ` : ''}
+            <div class="day-budget day-budget-real">
+              <span class="budget-label">Real</span>
+              <input type="number" value="${d.budgetReal}" placeholder="0" 
+                style="width: 100px; border: none; background: transparent; font-weight: 900; font-size: 13px; color: #1e40af; text-align: right;"
+                onchange="saveDayBudget(${d.day}, 'real', this.value)">
+            </div>
+          </div>
+        </div>
+        <div class="activity-list">
+          ${d.activities.map((a, i) => {
+            const linkKey = `${d.day}_${i}`;
+            const savedLink = dayLinks[linkKey] || '';
+            const savedCost = dayCosts[linkKey] || '';
+            return `
+              <div class="activity">
+                <div class="activity-top">
+                  <div class="activity-icon">${a.icon}</div>
+                  <div class="activity-body">
+                    <div class="activity-title">${a.title}</div>
+                    <div class="activity-detail">${a.detail}</div>
+                  </div>
+                </div>
+                ${a.hasLink || a.hasCost ? `
+                  <div class="activity-links">
+                    ${a.hasLink ? `
+                      <div class="link-input-wrap">
+                        <input class="link-input" type="url" placeholder="🔗 Link Google Maps ou site oficial" 
+                          value="${savedLink}" onchange="saveLink(${d.day}, ${i}, this.value)">
+                        ${savedLink ? `<button class="link-btn" onclick="window.open('${savedLink}', '_blank')">Abrir</button>` : ''}
+                      </div>
+                    ` : ''}
+                    ${a.hasCost ? `
+                      <div class="cost-input-wrap">
+                        <span class="cost-label">💳 Custo real:</span>
+                        <input class="cost-input" type="number" placeholder="R$ 0" 
+                          value="${savedCost}" onchange="saveCost(${d.day}, ${i}, this.value)">
+                      </div>
+                    ` : ''}
+                  </div>
+                ` : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
+        ${d.tip ? `<div class="tip-box">${d.tip}</div>` : ''}
+      </div>
+    `).join('');
+  }
+
+  function renderBudget() {
+    const container = document.getElementById('budgetRows');
+    container.innerHTML = BUDGET_CATEGORIES.map(cat => `
+      <div class="budget-row">
+        <span class="label">${cat.label}</span>
+        <input type="number" value="${customBudget[cat.key]}" placeholder="Planejado" 
+          onchange="updateBudgetItem('${cat.key}', this.value)" style="border-color: #bbf7d0;">
+        <input type="number" value="${realBudget[cat.key]}" placeholder="Real" 
+          onchange="updateRealBudgetItem('${cat.key}', this.value)" style="border-color: #93c5fd;">
+      </div>
+    `).join('');
+
+    const totalPlanned = Object.values(customBudget).reduce((sum, v) => sum + v, 0);
+    const totalReal = Object.values(realBudget).reduce((sum, v) => sum + v, 0);
+
+    document.getElementById('budgetTotalPlanned').textContent = formatMoney(totalPlanned);
+    document.getElementById('budgetTotalReal').textContent = formatMoney(totalReal);
+    document.getElementById('splitAugusto').textContent = formatMoney(totalReal / 3);
+    document.getElementById('splitVanessa').textContent = formatMoney(totalReal / 3);
+    document.getElementById('splitJonny').textContent = formatMoney(totalReal / 3);
+  }
+
+  function updateBudgetItem(key, value) {
+    customBudget[key] = parseInt(value) || 0;
+    localStorage.setItem('sa_budget_custom', JSON.stringify(customBudget));
+    renderBudget();
+    updateStats();
+    toast('💰 Orçamento planejado atualizado');
+  }
+
+  function updateRealBudgetItem(key, value) {
+    realBudget[key] = parseInt(value) || 0;
+    localStorage.setItem('sa_budget_real', JSON.stringify(realBudget));
+    renderBudget();
+    updateStats();
+    toast('💳 Gasto real atualizado');
+  }
+
+  function renderChecklist() {
+    const renderList = (items, containerId) => {
+      document.getElementById(containerId).innerHTML = items.map((item, i) => {
+        const id = `${containerId}_${i}`;
+        const checked = checkedItems[id] || false;
+        return `
+          <div class="checklist-item ${checked ? 'done' : ''}" onclick="toggleCheck('${id}')">
+            <input type="checkbox" ${checked ? 'checked' : ''} onclick="event.stopPropagation(); toggleCheck('${id}')">
+            <label>${item}</label>
+          </div>
+        `;
+      }).join('');
+    };
+
+    renderList(CHECKLIST_PRE, 'checklistPre');
+    renderList(CHECKLIST_1WEEK, 'checklist1Week');
+    renderList(CHECKLIST_LASTDAY, 'checklistLastDay');
+  }
+
+  function toggleCheck(id) {
+    checkedItems[id] = !checkedItems[id];
+    localStorage.setItem('sa_checklist', JSON.stringify(checkedItems));
+    renderChecklist();
+    toast(checkedItems[id] ? '✅ Item concluído!' : '⬜ Item desmarcado');
+  }
+
+  function renderTips() {
+    const container = document.getElementById('tipsRegions');
+    container.innerHTML = TIPS_REGIONS.map(r => `
+      <div class="region-tips">
+        <h3>${r.icon} ${r.name}</h3>
+        <div class="subtitle">${r.subtitle}</div>
+        <ul>
+          ${r.tips.map(t => `<li>${t}</li>`).join('')}
+        </ul>
+      </div>
+    `).join('');
+  }
+
+  function updateStats() {
+    const totalPlanned = Object.values(customBudget).reduce((sum, v) => sum + v, 0);
+    const totalReal = Object.values(realBudget).reduce((sum, v) => sum + v, 0);
+    const diff = totalReal - totalPlanned;
+
+    document.getElementById('totalBudgetPlanned').textContent = formatMoney(totalPlanned);
+    document.getElementById('totalBudgetReal').textContent = formatMoney(totalReal);
+    document.getElementById('perPerson').textContent = formatMoney(totalReal > 0 ? totalReal / 3 : totalPlanned / 3);
+
+    if (totalReal > 0) {
+      const diffText = diff > 0 ? `+${formatMoney(diff)} acima` : `${formatMoney(Math.abs(diff))} economia`;
+      document.getElementById('budgetDiff').textContent = diffText;
+      document.getElementById('budgetDiff').style.color = diff > 0 ? '#dc2626' : '#059669';
+    } else {
+      document.getElementById('budgetDiff').textContent = 'Aguardando gastos';
+    }
+  }
+
+  // ─── INIT ─────────────────────────────────────────────────────────────────────
+
+  renderItinerary();
+  renderBudget();
+  renderChecklist();
+  renderTips();
+  updateStats();
+
+  document.getElementById(`profile-${currentProfile}`).classList.add('active');
+</script>
+
+</body>
+</html>
