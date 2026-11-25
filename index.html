@@ -2,10 +2,14 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#7c3aed" />
   <title>🇿🇦 África do Sul - Roteiro 2027</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
+    button, input, .checklist-item, .profile-card { touch-action: manipulation; }
 
     :root {
       --bg: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 50%, #db2777 100%);
@@ -30,6 +34,7 @@
       font-size: 15px;
       line-height: 1.6;
       min-height: 100vh;
+      min-height: 100dvh;
       padding-bottom: 80px;
     }
 
@@ -343,7 +348,43 @@
       cursor: pointer;
       transition: all 0.2s;
       white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
     }
+    .link-btn[hidden] { display: none; }
+
+    .day-real-input {
+      width: 100px;
+      border: none;
+      background: transparent;
+      font-weight: 900;
+      font-size: 13px;
+      color: #1e40af;
+      text-align: right;
+      outline: none;
+    }
+
+    .sync {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.92);
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .sync.ok  { color: #047857; }
+    .sync.err { color: #b45309; }
+
+    .fld { display: flex; flex-direction: column; gap: 2px; }
+    .fld > span { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: var(--muted); }
+    .fld.plan input { border-color: #bbf7d0; }
+    .fld.real input { border-color: #93c5fd; }
+    .tab-btn .ti { font-size: 16px; }
 
     .link-btn:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
 
@@ -608,17 +649,242 @@
 
     #toast.show { transform: translateX(0); }
 
-    /* RESPONSIVE */
+    /* RESPONSIVE — tablets e celulares (iPhone / Android) */
     @media (max-width: 768px) {
-      header { padding: 0 16px; height: 64px; }
-      .header-left h1 { font-size: 17px; }
-      .container { padding: 0 14px; margin-top: 24px; }
-      .day-card { padding: 20px; }
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .budget-profiles { grid-template-columns: 1fr; }
-      .travelers .avatar { width: 36px; height: 36px; font-size: 13px; }
-      #toast { right: 16px; bottom: 20px; }
-      .btn-whatsapp { padding: 8px 14px; }
+      body { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+
+      header {
+        height: auto;
+        min-height: 60px;
+        gap: 10px;
+        padding: calc(8px + env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) 8px max(14px, env(safe-area-inset-left));
+      }
+      .flag { font-size: 28px; }
+      .header-left { gap: 10px; min-width: 0; flex: 1; }
+      .header-left > div { min-width: 0; }
+      header h1 { font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      header .sub { font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .travelers .avatar { width: 34px; height: 34px; font-size: 13px; }
+      .btn-whatsapp { padding: 0; width: 44px; height: 44px; justify-content: center; }
+      .btn-whatsapp .wa-text { display: none; }
+
+      .container {
+        margin: 16px auto;
+        padding-left: max(14px, env(safe-area-inset-left));
+        padding-right: max(14px, env(safe-area-inset-right));
+      }
+
+      /* Estatísticas */
+      .stats { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 18px; }
+      .stat-card { padding: 10px 8px; border-radius: 14px; }
+      .stat-card:last-child { grid-column: 1 / -1; }
+      .stat-icon { display: none; }
+      .stat-val { font-size: 22px; margin-bottom: 2px; }
+      .stat-lbl { font-size: 10px; }
+      .stat-sublbl { margin-top: 2px; }
+
+      /* Abas viram barra inferior, como app nativo */
+      .tabs-wrap {
+        position: fixed;
+        left: 0; right: 0; bottom: 0;
+        z-index: 150;
+        margin: 0;
+        gap: 4px;
+        border-width: 1px 0 0;
+        border-radius: 18px 18px 0 0;
+        padding: 6px max(8px, env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+        box-shadow: 0 -4px 16px rgba(0,0,0,0.12);
+        overflow: visible;
+      }
+      .tab-btn { flex: 1; flex-direction: column; justify-content: center; gap: 2px; padding: 6px 4px; min-height: 50px; font-size: 11px; }
+      .tab-btn .ti { font-size: 20px; line-height: 1; }
+
+      /* Roteiro */
+      .day-card { padding: 16px; border-radius: 16px; margin-bottom: 16px; }
+      .day-header { flex-direction: column; gap: 12px; }
+      .day-title { min-width: 0; width: 100%; }
+      .day-title h3 { font-size: 16px; }
+      .day-num { width: 32px; height: 32px; margin-right: 10px; }
+      .day-budget-wrap { flex-direction: row; align-items: stretch; width: 100%; gap: 8px; }
+      .day-budget { flex: 1; justify-content: space-between; }
+      .activity { padding: 12px; }
+      .activity-icon { width: 36px; height: 36px; font-size: 18px; }
+      .link-input-wrap { flex: 1 1 100%; min-width: 0; }
+      .cost-input-wrap { width: 100%; }
+      .cost-input { flex: 1; width: auto; }
+      .link-input, .cost-input, .link-btn { min-height: 44px; }
+      .link-btn { padding: 0 14px; }
+
+      /* Orçamento */
+      .budget-selector, .budget-section, .region-tips { padding: 18px; border-radius: 16px; margin-bottom: 16px; }
+      .budget-profiles { grid-template-columns: 1fr; gap: 12px; }
+      .profile-card { padding: 16px; }
+      .budget-row { flex-wrap: wrap; gap: 8px 12px; padding: 12px 0; }
+      .budget-row .label { flex: 1 1 100%; }
+      .budget-row .fld { flex: 1; }
+      .budget-row input { width: 100%; min-height: 44px; }
+      .budget-total { padding: 14px 16px; }
+      .budget-total .label { font-size: 14px; }
+      .budget-total .value { font-size: 22px; }
+
+      /* Checklist */
+      .checklist-item { padding: 14px; min-height: 52px; }
+      .checklist-item input[type="checkbox"] { width: 26px; height: 26px; }
+
+      /* Evita o zoom automático do iOS ao focar em campos (<16px) */
+      .link-input, .cost-input, .budget-row input, .day-real-input { font-size: 16px; }
+      .day-real-input { width: 110px; }
+
+      /* Toast centralizado acima da barra de abas */
+      #toast {
+        left: 16px; right: 16px;
+        bottom: calc(76px + env(safe-area-inset-bottom));
+        justify-content: center;
+        white-space: normal;
+        text-align: center;
+        transform: translateY(24px);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+      }
+      #toast.show { transform: none; opacity: 1; }
+    }
+
+    @media (max-width: 560px) {
+      .travelers { display: none; }
+    }
+
+    /* Sem efeitos de hover em telas touch */
+    @media (hover: none) {
+      .day-card:hover, .stat-card:hover { transform: none; box-shadow: var(--shadow); }
+      .btn-whatsapp:hover { transform: none; }
+      .avatar:hover { transform: none; }
+    }
+
+    /* PAINEL LATERAL DE DESPESAS */
+    .who-augusto { --c1: #667eea; --c2: #764ba2; }
+    .who-vanessa { --c1: #f093fb; --c2: #f5576c; }
+    .who-jonny   { --c1: #4facfe; --c2: #06b6d4; }
+
+    .btn-exp {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 18px;
+      background: #7c3aed; color: #fff;
+      border: none; border-radius: 100px;
+      font-size: 13px; font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(124,58,237,0.4);
+    }
+
+    .drawer-backdrop {
+      position: fixed; inset: 0; z-index: 300;
+      background: rgba(15,23,42,0.55);
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.25s, visibility 0.25s;
+    }
+    .drawer {
+      position: fixed; top: 0; right: 0; bottom: 0; z-index: 310;
+      width: min(420px, 100vw);
+      background: #fff;
+      display: flex; flex-direction: column;
+      transform: translateX(100%); visibility: hidden;
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), visibility 0.3s;
+      box-shadow: -8px 0 32px rgba(0,0,0,0.25);
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-right: env(safe-area-inset-right);
+    }
+    body.drawer-open { overflow: hidden; }
+    body.drawer-open .drawer-backdrop { opacity: 1; visibility: visible; }
+    body.drawer-open .drawer { transform: none; visibility: visible; }
+
+    .drawer-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .drawer-head h2 { font-size: 17px; font-weight: 800; }
+    .drawer-close {
+      width: 44px; height: 44px; flex-shrink: 0;
+      border: none; border-radius: 50%;
+      background: #f1f5f9; color: var(--text);
+      font-size: 18px; cursor: pointer;
+    }
+    .drawer-body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 16px 18px 24px; }
+
+    .exp-totals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+    .exp-tot {
+      position: relative; overflow: hidden;
+      border: 1px solid var(--border); border-radius: 12px;
+      padding: 12px 8px 8px; text-align: center;
+    }
+    .exp-tot::before {
+      content: ''; position: absolute; left: 0; right: 0; top: 0; height: 4px;
+      background: linear-gradient(135deg, var(--c1), var(--c2));
+    }
+    .exp-tot span { display: block; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
+    .exp-tot strong { display: block; font-size: 15px; font-weight: 900; margin-top: 2px; }
+    .exp-grand {
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--accent-light); border: 2px solid var(--accent); border-radius: 12px;
+      padding: 10px 14px; margin-bottom: 18px;
+      font-weight: 800; color: var(--accent);
+    }
+    .exp-grand strong { font-size: 20px; font-weight: 900; }
+
+    .exp-form {
+      background: #f8fafc; border: 1px solid var(--border); border-radius: 14px;
+      padding: 14px; margin-bottom: 18px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .exp-form-title { font-size: 13px; font-weight: 800; }
+    .who-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .who-chip {
+      min-height: 44px; border-radius: 10px;
+      border: 2px solid var(--border); background: #fff;
+      font-size: 14px; font-weight: 700; color: var(--muted);
+      cursor: pointer;
+    }
+    .who-chip.active {
+      border-color: transparent; color: #fff;
+      background: linear-gradient(135deg, var(--c1), var(--c2));
+    }
+    .exp-form input {
+      width: 100%; min-height: 48px;
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 8px 12px; font-size: 16px; outline: none;
+    }
+    .exp-form input:focus { border-color: var(--accent); }
+    .exp-add {
+      min-height: 48px; border: none; border-radius: 10px;
+      background: var(--accent); color: #fff;
+      font-size: 15px; font-weight: 800; cursor: pointer;
+    }
+
+    .exp-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 0; border-bottom: 1px solid var(--border);
+    }
+    .exp-item:last-child { border-bottom: none; }
+    .exp-dot {
+      width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 800; font-size: 14px;
+      background: linear-gradient(135deg, var(--c1), var(--c2));
+    }
+    .exp-main { flex: 1; min-width: 0; }
+    .exp-desc { font-size: 14px; font-weight: 700; overflow-wrap: anywhere; }
+    .exp-meta { font-size: 12px; color: var(--muted); }
+    .exp-amt { font-size: 15px; font-weight: 900; white-space: nowrap; }
+    .exp-del {
+      width: 36px; height: 36px; flex-shrink: 0; border: none; border-radius: 50%;
+      background: #fee2e2; color: #b91c1c; font-size: 14px; cursor: pointer;
+    }
+    .exp-empty { text-align: center; color: var(--muted); font-size: 13px; padding: 20px 0; }
+
+    @media (max-width: 768px) {
+      .btn-exp { padding: 0; width: 44px; height: 44px; justify-content: center; }
+      .btn-exp .exp-text { display: none; }
     }
   </style>
 </head>
@@ -634,9 +900,13 @@
     </div>
   </div>
   <div class="header-right">
-    <button class="btn-whatsapp" onclick="shareWhatsApp()">
+    <button class="btn-exp" onclick="openDrawer()" aria-label="Abrir despesas de cada um">
+      <span style="font-size: 18px;">💸</span>
+      <span class="exp-text">Despesas</span>
+    </button>
+    <button class="btn-whatsapp" onclick="shareWhatsApp()" aria-label="Compartilhar no WhatsApp">
       <span style="font-size: 18px;">💬</span>
-      Compartilhar no WhatsApp
+      <span class="wa-text">Compartilhar no WhatsApp</span>
     </button>
     <div class="travelers">
       <div class="avatar augusto" title="Augusto">A</div>
@@ -647,6 +917,8 @@
 </header>
 
 <div class="container">
+
+  <div class="sync" id="syncStatus" role="status" aria-live="polite"></div>
 
   <!-- STATS -->
   <div class="stats">
@@ -680,10 +952,10 @@
 
   <!-- TABS -->
   <div class="tabs-wrap">
-    <button class="tab-btn active" onclick="showTab('itinerary')">📅 Roteiro</button>
-    <button class="tab-btn" onclick="showTab('budget')">💰 Orçamento</button>
-    <button class="tab-btn" onclick="showTab('checklist')">✅ Checklist</button>
-    <button class="tab-btn" onclick="showTab('tips')">💡 Dicas</button>
+    <button class="tab-btn active" onclick="showTab('itinerary')"><span class="ti">📅</span><span>Roteiro</span></button>
+    <button class="tab-btn" onclick="showTab('budget')"><span class="ti">💰</span><span>Orçamento</span></button>
+    <button class="tab-btn" onclick="showTab('checklist')"><span class="ti">✅</span><span>Checklist</span></button>
+    <button class="tab-btn" onclick="showTab('tips')"><span class="ti">💡</span><span>Dicas</span></button>
   </div>
 
   <!-- TAB: ITINERARY -->
@@ -797,9 +1069,38 @@
 
 </div>
 
+<!-- PAINEL LATERAL: DESPESAS -->
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeDrawer()"></div>
+<aside class="drawer" id="expDrawer" role="dialog" aria-modal="true" aria-labelledby="expTitle" aria-hidden="true">
+  <div class="drawer-head">
+    <h2 id="expTitle">💸 Despesas de cada um</h2>
+    <button class="drawer-close" onclick="closeDrawer()" aria-label="Fechar">✕</button>
+  </div>
+  <div class="drawer-body">
+    <div class="exp-totals" id="expTotals"></div>
+    <div class="exp-grand"><span>Total geral</span><strong id="expGrand">R$ 0</strong></div>
+
+    <div class="exp-form">
+      <div class="exp-form-title">Nova despesa</div>
+      <div class="who-row" role="group" aria-label="Quem pagou">
+        <button type="button" class="who-chip who-augusto" data-who="augusto" onclick="pickWho('augusto')">Augusto</button>
+        <button type="button" class="who-chip who-vanessa" data-who="vanessa" onclick="pickWho('vanessa')">Vanessa</button>
+        <button type="button" class="who-chip who-jonny" data-who="jonny" onclick="pickWho('jonny')">Jonny</button>
+      </div>
+      <input id="expDesc" type="text" maxlength="60" autocomplete="off" placeholder="Com o quê? (ex.: Jantar)" aria-label="Descrição da despesa">
+      <input id="expAmount" type="number" inputmode="numeric" min="1" placeholder="Valor em R$" aria-label="Valor em reais"
+        onkeydown="if (event.key === 'Enter') addExpense()">
+      <button type="button" class="exp-add" onclick="addExpense()">Adicionar despesa</button>
+    </div>
+
+    <div id="expList"></div>
+  </div>
+</aside>
+
 <!-- TOAST -->
 <div id="toast"></div>
 
+<script src="config.js"></script>
 <script>
   // ─── DATA ───────────────────────────────────────────────────────────────────
 
@@ -1111,28 +1412,328 @@
     }
   ];
 
-  // ─── STATE ───────────────────────────────────────────────────────────────────
+  // ─── STATE (salvo no aparelho + sincronizado com o banco de dados) ───────────
+  //
+  // Cada valor digitado é uma linha própria (chave → valor):
+  //   budget:<cat>  real:<cat>   → orçamento planejado / gasto real por categoria
+  //   cost:<dia>_<i>              → custo real de uma atividade
+  //   link:<dia>_<i>              → link de uma atividade
+  //   dayreal:<dia>               → gasto real do dia
+  //   check:<id>                  → item do checklist marcado
+  //   profile                     → perfil de viagem escolhido
+  // Assim, duas pessoas editando campos diferentes não sobrescrevem uma à outra.
 
-  let currentProfile = 'media';
-  let customBudget = JSON.parse(localStorage.getItem('sa_budget_custom') || 'null');
-  let realBudget = JSON.parse(localStorage.getItem('sa_budget_real') || 'null');
-  let dayLinks = JSON.parse(localStorage.getItem('sa_day_links') || '{}');
-  let dayCosts = JSON.parse(localStorage.getItem('sa_day_costs') || '{}');
-  let checkedItems = JSON.parse(localStorage.getItem('sa_checklist') || '{}');
+  const CFG = window.APP_CONFIG || {};
+  const SYNC_URL = /^https:\/\/[A-Za-z0-9.-]+$/.test(CFG.supabaseUrl || '') ? CFG.supabaseUrl : '';
+  const SYNC_KEY = typeof CFG.supabaseAnonKey === 'string' ? CFG.supabaseAnonKey : '';
+  const SYNC_CONFIGURED = Boolean(SYNC_URL && SYNC_KEY);
+  const TRIP_RE = /^[A-Za-z0-9_-]{16,64}$/;
+  const KEY_RE = /^[a-z]{1,12}(:[A-Za-z0-9_]{1,40})?$/;
+  const PROFILES = ['economico', 'media', 'luxo'];
+  const WHO = { augusto: 'Augusto', vanessa: 'Vanessa', jonny: 'Jonny' };
 
-  if (!customBudget) {
-    customBudget = {};
-    BUDGET_CATEGORIES.forEach(cat => {
-      customBudget[cat.key] = cat.media;
-    });
+  function lsGet(k, fallback) {
+    try { const v = localStorage.getItem(k); return v === null ? fallback : JSON.parse(v); } catch { return fallback; }
+  }
+  function lsSet(k, v) {
+    try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* armazenamento indisponível */ }
+  }
+  const has = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  // Código da viagem: chega uma vez pelo link (#t=CODIGO), fica salvo no aparelho
+  // e é removido da barra de endereço.
+  const hashMatch = location.hash.match(/[#&]t=([A-Za-z0-9_-]{16,64})/);
+  if (hashMatch) {
+    lsSet('sa_trip', hashMatch[1]);
+    history.replaceState(null, '', location.pathname + location.search);
+  }
+  const TRIP = lsGet('sa_trip', '');
+  const SYNC_ON = SYNC_CONFIGURED && TRIP_RE.test(TRIP);
+
+  // Valida/normaliza qualquer valor (digitado, local ou vindo do banco).
+  function cleanUrl(v) {
+    if (typeof v !== 'string' || !v.trim()) return '';
+    if (v.length > 500) return undefined;
+    try {
+      const u = new URL(v.trim());
+      return /^https?:$/.test(u.protocol) ? u.href : undefined;
+    } catch { return undefined; }
   }
 
-  if (!realBudget) {
-    realBudget = {};
-    BUDGET_CATEGORIES.forEach(cat => {
-      realBudget[cat.key] = 0;
-    });
+  function normalize(key, v) {
+    if (typeof key !== 'string' || !KEY_RE.test(key)) return undefined;
+    const kind = key.split(':')[0];
+    if (['budget', 'real', 'cost', 'dayreal'].includes(kind)) {
+      const n = Math.round(Number(v));
+      return Number.isFinite(n) ? Math.min(Math.max(n, 0), 100000000) : undefined;
+    }
+    if (kind === 'link') return cleanUrl(v);
+    if (kind === 'check') return v === true;
+    if (kind === 'exp') {
+      if (v === false) return false; // despesa apagada
+      if (!v || typeof v !== 'object') return undefined;
+      const a = Math.round(Number(v.a));
+      const t = Math.round(Number(v.t));
+      const d = typeof v.d === 'string' ? v.d.replace(/[\u0000-\u001f\u007f]/g, ' ').trim().slice(0, 60) : '';
+      if (typeof v.w !== 'string' || !has(WHO, v.w) || !(a >= 1 && a <= 100000000) || !Number.isFinite(t) || !d) return undefined;
+      return { w: v.w, a, d, t };
+    }
+    if (key === 'profile') return PROFILES.includes(v) ? v : undefined;
+    return undefined;
   }
+
+  let state = lsGet('sa_state_v2', null);
+  let pending = lsGet('sa_pending_v2', {});
+
+  // Migra dados antigos (versão que só usava localStorage) na primeira abertura.
+  function migrateLegacy() {
+    const put = (k, v) => { const n = normalize(k, v); if (n !== undefined) { state[k] = n; pending[k] = n; } };
+    Object.entries(lsGet('sa_budget_custom', {})).forEach(([k, v]) => put('budget:' + k, v));
+    Object.entries(lsGet('sa_budget_real', {})).forEach(([k, v]) => put('real:' + k, v));
+    Object.entries(lsGet('sa_day_links', {})).forEach(([k, v]) => put('link:' + k, v));
+    Object.entries(lsGet('sa_day_costs', {})).forEach(([k, v]) => put('cost:' + k, v));
+    Object.entries(lsGet('sa_checklist', {})).forEach(([k, v]) => put('check:' + k, v));
+    lsSet('sa_state_v2', state);
+    lsSet('sa_pending_v2', pending);
+  }
+  if (!state || typeof state !== 'object') { state = {}; migrateLegacy(); }
+
+  function setVal(key, raw) {
+    const v = normalize(key, raw);
+    if (v === undefined) return false;
+    state[key] = v;
+    pending[key] = v;
+    lsSet('sa_state_v2', state);
+    lsSet('sa_pending_v2', pending);
+    flush();
+    return true;
+  }
+
+  const num = (key, def = 0) => (has(state, key) && typeof state[key] === 'number') ? state[key] : def;
+  const currentProfile = () => (has(state, 'profile') && PROFILES.includes(state.profile)) ? state.profile : 'media';
+  const plannedOf = cat => num('budget:' + cat.key, cat[currentProfile()]);
+  const realOf = cat => num('real:' + cat.key, 0);
+  const totalPlanned = () => BUDGET_CATEGORIES.reduce((s, c) => s + plannedOf(c), 0);
+  // Gasto de um dia: o valor "Real" do dia, se preenchido; senão a soma dos custos das atividades dele.
+  const daySpend = d => {
+    const fixed = num(`dayreal:${d.day}`, 0);
+    if (fixed > 0) return fixed;
+    return d.activities.reduce((s, _, i) => s + num(`cost:${d.day}_${i}`, 0), 0);
+  };
+  const totalReal = () =>
+    BUDGET_CATEGORIES.reduce((s, c) => s + realOf(c), 0) + DAYS.reduce((s, d) => s + daySpend(d), 0);
+
+  // ─── SINCRONIZAÇÃO (Supabase via HTTPS) ──────────────────────────────────────
+
+  const SYNC_MSG = {
+    local:  ['', '📱 Salvo só neste aparelho'],
+    nocode: ['err', '🔒 Abra o link com o código da viagem para sincronizar'],
+    busy:   ['', '⏳ Sincronizando…'],
+    ok:     ['ok', '☁️ Salvo e sincronizado'],
+    err:    ['err', '⚠️ Sem conexão — salvo no aparelho, envio depois']
+  };
+
+  function setSync(kind) {
+    const el = document.getElementById('syncStatus');
+    const [cls, text] = SYNC_MSG[kind];
+    el.className = 'sync ' + cls;
+    el.textContent = text;
+  }
+
+  async function rpc(fn, body) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 10000);
+    try {
+      const res = await fetch(`${SYNC_URL}/rest/v1/rpc/${fn}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: SYNC_KEY },
+        body: JSON.stringify(body),
+        signal: ctrl.signal
+      });
+      if (!res.ok) throw new Error('http');
+      return await res.json().catch(() => null);
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  let flushing = false;
+  async function flush() {
+    if (!SYNC_ON) return true;
+    if (flushing) return true;
+    flushing = true;
+    try {
+      while (Object.keys(pending).length) {
+        for (const [key, value] of Object.entries(pending)) {
+          await rpc('set_trip_state', { p_trip: TRIP, p_key: key, p_value: value });
+          if (pending[key] === value) delete pending[key];
+          lsSet('sa_pending_v2', pending);
+        }
+      }
+      setSync('ok');
+      return true;
+    } catch {
+      setSync('err');
+      return false;
+    } finally {
+      flushing = false;
+    }
+  }
+
+  async function pull() {
+    try {
+      const rows = await rpc('get_trip_state', { p_trip: TRIP });
+      let changed = false;
+      for (const r of Array.isArray(rows) ? rows : []) {
+        if (!r || has(pending, r.key)) continue; // alteração local ainda não enviada vence
+        const v = normalize(r.key, r.value);
+        if (v !== undefined && JSON.stringify(state[r.key]) !== JSON.stringify(v)) { state[r.key] = v; changed = true; }
+      }
+      if (changed) { lsSet('sa_state_v2', state); rerenderAll(); }
+      setSync('ok');
+    } catch {
+      setSync('err');
+    }
+  }
+
+  async function syncNow() {
+    if (!SYNC_ON) return;
+    setSync('busy');
+    if (await flush()) await pull();
+  }
+
+  // Não redesenha a tela enquanto alguém está digitando.
+  let needsRender = false;
+  function rerenderAll() {
+    renderExpenses(); // só mexe na lista, nunca nos campos de digitação
+    const a = document.activeElement;
+    if (a && /^(INPUT|TEXTAREA)$/.test(a.tagName)) { needsRender = true; return; }
+    needsRender = false;
+    renderItinerary();
+    renderBudget();
+    renderChecklist();
+    highlightProfile();
+    updateStats();
+  }
+  document.addEventListener('focusout', () => { if (needsRender) setTimeout(rerenderAll, 0); });
+
+  // ─── DESPESAS (painel lateral) ───────────────────────────────────────────────
+  // Cada despesa é uma linha própria no banco (exp:<id> = {w: quem, a: valor, d: descrição, t: data}).
+  // Apagar grava "false" (assim a exclusão também sincroniza entre os aparelhos).
+
+  let currentWho = lsGet('sa_who', 'augusto');
+  if (typeof currentWho !== 'string' || !has(WHO, currentWho)) currentWho = 'augusto';
+  let mine = lsGet('sa_mine', {}); // despesas lançadas neste aparelho (só elas mostram o botão apagar)
+  let drawerOpener = null;
+
+  function expenseList() {
+    return Object.keys(state)
+      .filter(k => k.startsWith('exp:'))
+      .map(k => {
+        const v = normalize(k, state[k]);
+        return v && typeof v === 'object' ? { id: k.slice(4), ...v } : null;
+      })
+      .filter(Boolean)
+      .sort((a, b) => b.t - a.t);
+  }
+
+  function fmtWhen(t) {
+    const d = new Date(t);
+    return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) + ' ' +
+           d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function renderExpenses() {
+    const list = document.getElementById('expList');
+    if (!list) return;
+    const all = expenseList();
+    const sums = { augusto: 0, vanessa: 0, jonny: 0 };
+    all.forEach(e => { sums[e.w] += e.a; });
+
+    document.getElementById('expTotals').innerHTML = Object.keys(WHO).map(k =>
+      `<div class="exp-tot who-${k}"><span>${WHO[k]}</span><strong>${formatMoney(sums[k])}</strong></div>`
+    ).join('');
+    document.getElementById('expGrand').textContent = formatMoney(sums.augusto + sums.vanessa + sums.jonny);
+
+    document.querySelectorAll('.who-chip').forEach(c => {
+      const on = c.dataset.who === currentWho;
+      c.classList.toggle('active', on);
+      c.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+
+    list.innerHTML = all.length ? all.map(e => `
+      <div class="exp-item">
+        <span class="exp-dot who-${e.w}">${WHO[e.w][0]}</span>
+        <div class="exp-main">
+          <div class="exp-desc">${esc(e.d)}</div>
+          <div class="exp-meta">${WHO[e.w]} · ${fmtWhen(e.t)}</div>
+        </div>
+        <div class="exp-amt">${formatMoney(e.a)}</div>
+        ${has(mine, e.id) && /^[A-Za-z0-9_]{1,40}$/.test(e.id)
+          ? `<button class="exp-del" onclick="removeExpense('${e.id}')" aria-label="Apagar despesa">✕</button>` : ''}
+      </div>
+    `).join('') : '<div class="exp-empty">Nenhuma despesa lançada ainda.</div>';
+  }
+
+  function pickWho(who) {
+    if (!has(WHO, who)) return;
+    currentWho = who;
+    lsSet('sa_who', who);
+    renderExpenses();
+  }
+
+  function newExpenseId() {
+    const rnd = Array.from(crypto.getRandomValues(new Uint8Array(4)), b => b.toString(36).padStart(2, '0')).join('');
+    return Date.now().toString(36) + rnd;
+  }
+
+  function addExpense() {
+    const amountEl = document.getElementById('expAmount');
+    const descEl = document.getElementById('expDesc');
+    const amount = Math.round(Number(amountEl.value));
+    const desc = descEl.value.trim();
+    if (!(amount >= 1)) { toast('⚠️ Digite um valor maior que zero'); amountEl.focus(); return; }
+    if (!desc) { toast('⚠️ Diga com o que foi a despesa'); descEl.focus(); return; }
+
+    const id = newExpenseId();
+    if (!setVal('exp:' + id, { w: currentWho, a: amount, d: desc, t: Date.now() })) {
+      toast('⚠️ Despesa inválida');
+      return;
+    }
+    mine[id] = 1;
+    lsSet('sa_mine', mine);
+    amountEl.value = '';
+    descEl.value = '';
+    renderExpenses();
+    toast(`💸 ${formatMoney(amount)} lançado para ${WHO[currentWho]}`);
+  }
+
+  function removeExpense(id) {
+    if (!has(mine, id) || !confirm('Apagar esta despesa?')) return;
+    setVal('exp:' + id, false);
+    renderExpenses();
+    toast('🗑️ Despesa apagada');
+  }
+
+  function openDrawer() {
+    drawerOpener = document.activeElement;
+    document.body.classList.add('drawer-open');
+    document.getElementById('expDrawer').setAttribute('aria-hidden', 'false');
+    renderExpenses();
+    setTimeout(() => document.querySelector('.drawer-close').focus(), 50);
+    if (SYNC_ON) syncNow();
+  }
+
+  function closeDrawer() {
+    document.body.classList.remove('drawer-open');
+    document.getElementById('expDrawer').setAttribute('aria-hidden', 'true');
+    if (drawerOpener && drawerOpener.focus) drawerOpener.focus();
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.body.classList.contains('drawer-open')) closeDrawer();
+  });
 
   // ─── HELPERS ─────────────────────────────────────────────────────────────────
 
@@ -1143,71 +1744,73 @@
     document.querySelectorAll('.tab-panel').forEach(p => {
       p.classList.toggle('active', p.id === `tab-${name}`);
     });
+    window.scrollTo({ top: 0 });
   }
 
+  let toastTimer;
   function toast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
     t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2800);
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
   }
 
   function formatMoney(val) {
     return val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0, maximumFractionDigits: 0 });
   }
 
-  function selectProfile(profile) {
-    currentProfile = profile;
-    document.querySelectorAll('.profile-card').forEach(c => c.classList.remove('active'));
-    document.getElementById(`profile-${profile}`).classList.add('active');
-
-    BUDGET_CATEGORIES.forEach(cat => {
-      customBudget[cat.key] = cat[profile];
+  function highlightProfile() {
+    document.querySelectorAll('.profile-card').forEach(c => {
+      c.classList.toggle('active', c.id === `profile-${currentProfile()}`);
     });
+  }
 
-    localStorage.setItem('sa_budget_custom', JSON.stringify(customBudget));
+  function selectProfile(profile) {
+    if (!PROFILES.includes(profile)) return;
+    BUDGET_CATEGORIES.forEach(cat => setVal('budget:' + cat.key, cat[profile]));
+    setVal('profile', profile);
+    highlightProfile();
     renderBudget();
     updateStats();
     toast(`✅ Perfil "${profile}" selecionado`);
   }
 
-  function saveLink(day, activityIndex, url) {
-    const key = `${day}_${activityIndex}`;
-    dayLinks[key] = url;
-    localStorage.setItem('sa_day_links', JSON.stringify(dayLinks));
+  function saveLink(day, activityIndex, input) {
+    const url = cleanUrl(input.value);
+    const key = `link:${day}_${activityIndex}`;
+    if (url === undefined) {
+      input.value = has(state, key) ? state[key] : '';
+      toast('⚠️ Link inválido — use https://…');
+      return;
+    }
+    setVal(key, url);
+    input.value = url;
+    const openBtn = input.parentElement.querySelector('a.link-btn');
+    if (openBtn) {
+      openBtn.hidden = !url;
+      if (url) openBtn.href = url;
+    }
     toast('🔗 Link salvo!');
   }
 
   function saveCost(day, activityIndex, cost) {
-    const key = `${day}_${activityIndex}`;
-    dayCosts[key] = parseInt(cost) || 0;
-    localStorage.setItem('sa_day_costs', JSON.stringify(dayCosts));
-    updateDayCosts();
+    setVal(`cost:${day}_${activityIndex}`, cost);
     updateStats();
     toast('💰 Custo salvo!');
   }
 
   function saveDayBudget(day, type, value) {
-    const dayData = DAYS.find(d => d.day === day);
-    if (!dayData) return;
-
-    if (type === 'real') {
-      dayData.budgetReal = parseInt(value) || 0;
-    }
-
-    localStorage.setItem('sa_days_data', JSON.stringify(DAYS));
+    if (type !== 'real') return;
+    setVal(`dayreal:${day}`, value);
     updateStats();
     toast('💳 Custo atualizado!');
   }
 
-  function updateDayCosts() {
-    renderItinerary();
-  }
-
   function shareWhatsApp() {
-    const totalPlanned = Object.values(customBudget).reduce((sum, v) => sum + v, 0);
-    const totalReal = Object.values(realBudget).reduce((sum, v) => sum + v, 0);
-    const perPerson = totalReal > 0 ? totalReal / 3 : totalPlanned / 3;
+    const planned = totalPlanned();
+    const real = totalReal();
+    const perPerson = real > 0 ? real / 3 : planned / 3;
 
     const msg = `🇿🇦 *ROTEIRO ÁFRICA DO SUL 2027*
 
@@ -1215,8 +1818,8 @@
 📍 Cidade do Cabo, Garden Route & Safári Big 5
 
 💰 *Orçamento*
-• Planejado: ${formatMoney(totalPlanned)}
-• Real: ${formatMoney(totalReal)}
+• Planejado: ${formatMoney(planned)}
+• Real: ${formatMoney(real)}
 • Por pessoa: ${formatMoney(perPerson)}
 
 🌍 *Destaques*
@@ -1230,14 +1833,16 @@
 Vamos juntos nessa aventura! 🦁🍷🌊`;
 
     const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
-    window.open(url, '_blank');
+    window.open(url, '_blank', 'noopener');
   }
 
   // ─── RENDER ──────────────────────────────────────────────────────────────────
 
   function renderItinerary() {
     const container = document.getElementById('daysList');
-    container.innerHTML = DAYS.map(d => `
+    container.innerHTML = DAYS.map(d => {
+      const dayReal = num(`dayreal:${d.day}`, 0);
+      return `
       <div class="day-card">
         <div class="day-header">
           <div class="day-title">
@@ -1254,17 +1859,17 @@ Vamos juntos nessa aventura! 🦁🍷🌊`;
             ` : ''}
             <div class="day-budget day-budget-real">
               <span class="budget-label">Real</span>
-              <input type="number" value="${d.budgetReal}" placeholder="0" 
-                style="width: 100px; border: none; background: transparent; font-weight: 900; font-size: 13px; color: #1e40af; text-align: right;"
+              <input class="day-real-input" type="number" inputmode="numeric" min="0" value="${dayReal || ''}" placeholder="0"
+                aria-label="Gasto real do dia ${d.day}"
                 onchange="saveDayBudget(${d.day}, 'real', this.value)">
             </div>
           </div>
         </div>
         <div class="activity-list">
           ${d.activities.map((a, i) => {
-            const linkKey = `${d.day}_${i}`;
-            const savedLink = dayLinks[linkKey] || '';
-            const savedCost = dayCosts[linkKey] || '';
+            const k = `${d.day}_${i}`;
+            const savedLink = has(state, `link:${k}`) ? state[`link:${k}`] : '';
+            const savedCost = num(`cost:${k}`, 0);
             return `
               <div class="activity">
                 <div class="activity-top">
@@ -1278,16 +1883,18 @@ Vamos juntos nessa aventura! 🦁🍷🌊`;
                   <div class="activity-links">
                     ${a.hasLink ? `
                       <div class="link-input-wrap">
-                        <input class="link-input" type="url" placeholder="🔗 Link Google Maps ou site oficial" 
-                          value="${savedLink}" onchange="saveLink(${d.day}, ${i}, this.value)">
-                        ${savedLink ? `<button class="link-btn" onclick="window.open('${savedLink}', '_blank')">Abrir</button>` : ''}
+                        <input class="link-input" type="url" inputmode="url" autocapitalize="off" autocomplete="off"
+                          placeholder="🔗 Link Google Maps ou site oficial"
+                          value="${esc(savedLink)}" onchange="saveLink(${d.day}, ${i}, this)">
+                        <a class="link-btn" target="_blank" rel="noopener noreferrer"
+                          ${savedLink ? `href="${esc(savedLink)}"` : 'hidden'}>Abrir</a>
                       </div>
                     ` : ''}
                     ${a.hasCost ? `
                       <div class="cost-input-wrap">
                         <span class="cost-label">💳 Custo real:</span>
-                        <input class="cost-input" type="number" placeholder="R$ 0" 
-                          value="${savedCost}" onchange="saveCost(${d.day}, ${i}, this.value)">
+                        <input class="cost-input" type="number" inputmode="numeric" min="0" placeholder="R$ 0"
+                          value="${savedCost || ''}" onchange="saveCost(${d.day}, ${i}, this.value)">
                       </div>
                     ` : ''}
                   </div>
@@ -1298,7 +1905,8 @@ Vamos juntos nessa aventura! 🦁🍷🌊`;
         </div>
         ${d.tip ? `<div class="tip-box">${d.tip}</div>` : ''}
       </div>
-    `).join('');
+    `;
+    }).join('');
   }
 
   function renderBudget() {
@@ -1306,35 +1914,45 @@ Vamos juntos nessa aventura! 🦁🍷🌊`;
     container.innerHTML = BUDGET_CATEGORIES.map(cat => `
       <div class="budget-row">
         <span class="label">${cat.label}</span>
-        <input type="number" value="${customBudget[cat.key]}" placeholder="Planejado" 
-          onchange="updateBudgetItem('${cat.key}', this.value)" style="border-color: #bbf7d0;">
-        <input type="number" value="${realBudget[cat.key]}" placeholder="Real" 
-          onchange="updateRealBudgetItem('${cat.key}', this.value)" style="border-color: #93c5fd;">
+        <label class="fld plan"><span>Planejado</span>
+          <input type="number" inputmode="numeric" min="0" value="${plannedOf(cat)}"
+            onchange="updateBudgetItem('${cat.key}', this.value)">
+        </label>
+        <label class="fld real"><span>Real</span>
+          <input type="number" inputmode="numeric" min="0" value="${realOf(cat) || ''}" placeholder="0"
+            onchange="updateRealBudgetItem('${cat.key}', this.value)">
+        </label>
       </div>
     `).join('');
 
-    const totalPlanned = Object.values(customBudget).reduce((sum, v) => sum + v, 0);
-    const totalReal = Object.values(realBudget).reduce((sum, v) => sum + v, 0);
+    const real = totalReal();
+    document.getElementById('budgetTotalPlanned').textContent = formatMoney(totalPlanned());
+    document.getElementById('budgetTotalReal').textContent = formatMoney(real);
+    document.getElementById('splitAugusto').textContent = formatMoney(real / 3);
+    document.getElementById('splitVanessa').textContent = formatMoney(real / 3);
+    document.getElementById('splitJonny').textContent = formatMoney(real / 3);
+  }
 
-    document.getElementById('budgetTotalPlanned').textContent = formatMoney(totalPlanned);
-    document.getElementById('budgetTotalReal').textContent = formatMoney(totalReal);
-    document.getElementById('splitAugusto').textContent = formatMoney(totalReal / 3);
-    document.getElementById('splitVanessa').textContent = formatMoney(totalReal / 3);
-    document.getElementById('splitJonny').textContent = formatMoney(totalReal / 3);
+  // Atualiza só os totais (sem redesenhar os campos, para não perder o foco no celular).
+  function refreshBudgetTotals() {
+    const real = totalReal();
+    document.getElementById('budgetTotalPlanned').textContent = formatMoney(totalPlanned());
+    document.getElementById('budgetTotalReal').textContent = formatMoney(real);
+    document.getElementById('splitAugusto').textContent = formatMoney(real / 3);
+    document.getElementById('splitVanessa').textContent = formatMoney(real / 3);
+    document.getElementById('splitJonny').textContent = formatMoney(real / 3);
   }
 
   function updateBudgetItem(key, value) {
-    customBudget[key] = parseInt(value) || 0;
-    localStorage.setItem('sa_budget_custom', JSON.stringify(customBudget));
-    renderBudget();
+    setVal('budget:' + key, value);
+    refreshBudgetTotals();
     updateStats();
     toast('💰 Orçamento planejado atualizado');
   }
 
   function updateRealBudgetItem(key, value) {
-    realBudget[key] = parseInt(value) || 0;
-    localStorage.setItem('sa_budget_real', JSON.stringify(realBudget));
-    renderBudget();
+    setVal('real:' + key, value);
+    refreshBudgetTotals();
     updateStats();
     toast('💳 Gasto real atualizado');
   }
@@ -1343,7 +1961,7 @@ Vamos juntos nessa aventura! 🦁🍷🌊`;
     const renderList = (items, containerId) => {
       document.getElementById(containerId).innerHTML = items.map((item, i) => {
         const id = `${containerId}_${i}`;
-        const checked = checkedItems[id] || false;
+        const checked = has(state, `check:${id}`) && state[`check:${id}`] === true;
         return `
           <div class="checklist-item ${checked ? 'done' : ''}" onclick="toggleCheck('${id}')">
             <input type="checkbox" ${checked ? 'checked' : ''} onclick="event.stopPropagation(); toggleCheck('${id}')">
@@ -1359,10 +1977,11 @@ Vamos juntos nessa aventura! 🦁🍷🌊`;
   }
 
   function toggleCheck(id) {
-    checkedItems[id] = !checkedItems[id];
-    localStorage.setItem('sa_checklist', JSON.stringify(checkedItems));
+    const key = `check:${id}`;
+    const now = !(has(state, key) && state[key] === true);
+    setVal(key, now);
     renderChecklist();
-    toast(checkedItems[id] ? '✅ Item concluído!' : '⬜ Item desmarcado');
+    toast(now ? '✅ Item concluído!' : '⬜ Item desmarcado');
   }
 
   function renderTips() {
@@ -1379,15 +1998,15 @@ Vamos juntos nessa aventura! 🦁🍷🌊`;
   }
 
   function updateStats() {
-    const totalPlanned = Object.values(customBudget).reduce((sum, v) => sum + v, 0);
-    const totalReal = Object.values(realBudget).reduce((sum, v) => sum + v, 0);
-    const diff = totalReal - totalPlanned;
+    const planned = totalPlanned();
+    const real = totalReal();
+    const diff = real - planned;
 
-    document.getElementById('totalBudgetPlanned').textContent = formatMoney(totalPlanned);
-    document.getElementById('totalBudgetReal').textContent = formatMoney(totalReal);
-    document.getElementById('perPerson').textContent = formatMoney(totalReal > 0 ? totalReal / 3 : totalPlanned / 3);
+    document.getElementById('totalBudgetPlanned').textContent = formatMoney(planned);
+    document.getElementById('totalBudgetReal').textContent = formatMoney(real);
+    document.getElementById('perPerson').textContent = formatMoney(real > 0 ? real / 3 : planned / 3);
 
-    if (totalReal > 0) {
+    if (real > 0) {
       const diffText = diff > 0 ? `+${formatMoney(diff)} acima` : `${formatMoney(Math.abs(diff))} economia`;
       document.getElementById('budgetDiff').textContent = diffText;
       document.getElementById('budgetDiff').style.color = diff > 0 ? '#dc2626' : '#059669';
@@ -1402,9 +2021,19 @@ Vamos juntos nessa aventura! 🦁🍷🌊`;
   renderBudget();
   renderChecklist();
   renderTips();
+  renderExpenses();
+  highlightProfile();
   updateStats();
 
-  document.getElementById(`profile-${currentProfile}`).classList.add('active');
+  if (SYNC_ON) {
+    setSync('busy');
+    syncNow();
+    setInterval(() => { if (!document.hidden) syncNow(); }, 20000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) syncNow(); });
+    window.addEventListener('online', syncNow);
+  } else {
+    setSync(SYNC_CONFIGURED ? 'nocode' : 'local');
+  }
 </script>
 
 </body>
