@@ -1,0 +1,8 @@
+// Configuração do banco de dados (Supabase).
+// A chave "anon" é pública por definição do Supabase: o acesso real é protegido
+// pelas regras do banco (supabase-setup.sql) e pelo código secreto da viagem.
+// NUNCA coloque aqui a chave "service_role".
+window.APP_CONFIG = {
+  supabaseUrl: 'https://mrqsmihosvxavrrcizgf.supabase.co',
+  supabaseAnonKey: 'sb_publishable_e2HQeoZ-VWFWcMHrbc3W-A_WBY3uTwP'
+};
